@@ -8,41 +8,34 @@ const button = document.querySelector(`button`);
 const div = document.querySelector(`.gallery`);
 
 
+form.addEventListener(`click`, onSearch);
 
-async function getImages() {
-    console.log(`func`);
-    input.addEventListener(`change`, inputValue);
-    function inputValue(e) {
+function onSearch(e) {
     e.preventDefault();
-    const inputSeach = e.target.value;
-    console.log(inputSeach);
-}
+    console.log(`submit`);
+    const form = e.currentTarget;
+    const searchQuery = form.elements.searchQuery.value;
+    console.log(searchQuery);
+    getImages(searchQuery);
+};
+
+async function getImages(searchQuery) {
+    console.log(`func`);
+// }
     const response = await axios.get(`https://pixabay.com/api/`,
         {
             params: {
                 key: `38416277-2f3b74029dfd524974848f805`,
-                q: `cat`,
+                q: searchQuery,
                 image_type: `photo`,
                 orientation: `horizontal`,
                 safesearch: `true`,
             }
         });
-    console.log(response);
+    return response.data;
+    console.log(data);
 };
 
-getImages();
 
-// input.addEventListener(`change`, inputValue);
 
-button.addEventListener(`click`, btnSubmit);
 
-function btnSubmit(e) {
-    e.preventDefault();
-    console.log(`submit`);
-};
-
-// const inputName = function inputValue(e) {
-//     e.preventDefault();
-//     const inputSeach = e.target.value;
-//     console.log(inputSeach);
-// }
