@@ -8,7 +8,7 @@ const button = document.querySelector(`button`);
 const div = document.querySelector(`.gallery`);
 
 
-form.addEventListener(`click`, onSearch);
+form.addEventListener(`submit`, onSearch);
 
 function onSearch(e) {
     e.preventDefault();
@@ -21,7 +21,6 @@ function onSearch(e) {
 
 async function getImages(searchQuery) {
     console.log(`func`);
-// }
     const response = await axios.get(`https://pixabay.com/api/`,
         {
             params: {
