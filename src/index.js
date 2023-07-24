@@ -1,12 +1,17 @@
 import axios from "axios";
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import SimpleLightbox from  "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const form = document.querySelector(`.search-form`);
 const input = document.querySelector(`input`);
 const button = document.querySelector(`button`);
 const div = document.querySelector(`.gallery`);
 
+let lightbox = new SimpleLightbox('.gallery a', {
+    captionDelay: 250,
+});
 
 form.addEventListener(`submit`, onSearch);
 
@@ -18,16 +23,18 @@ async function onSearch(e) {
     // console.log(searchQuery);
     
     const img = await getImages(searchQuery);
-    console.log(img);
+    // console.log(img);
     const images = img.hits;
 try {
     if (images.length === 0) {
         Notify.info('Sorry, there are no images matching your search query. Please try again.');
     }
-    console.log(images);
+    // console.log(images);
     div.innerHTML = createMarkup(images);
-    } catch { Report.failure('Sorry!Something went wrong', '', 'Okay',); }
-finally { form.reset(); }
+    lightbox.refresh();
+}
+    catch { Report.failure('Sorry!Something went wrong', '', 'Okay',); }
+    finally { form.reset(); }
 
 
     
