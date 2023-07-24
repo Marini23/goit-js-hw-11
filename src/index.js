@@ -16,16 +16,26 @@ async function onSearch(e) {
     const form = e.currentTarget;
     const searchQuery = form.elements.searchQuery.value;
     // console.log(searchQuery);
+    
     const img = await getImages(searchQuery);
     console.log(img);
     const images = img.hits;
+try {
+    if (images.length === 0) {
+        Notify.info('Sorry, there are no images matching your search query. Please try again.');
+    }
     console.log(images);
     div.innerHTML = createMarkup(images);
-    // createMarkup(searchQuery);
+    } catch { Report.failure('Sorry!Something went wrong', '', 'Okay',); }
+finally { form.reset(); }
+
+
+    
 };
 
 async function getImages(searchQuery) {
     // console.log(`func`);
+    
     const {data} = await axios.get(`https://pixabay.com/api/`,
         {
             params: {
@@ -36,8 +46,9 @@ async function getImages(searchQuery) {
                 safesearch: `true`,
             }
         });
-    return data;
-};
+        return data; 
+        
+    };
 
 function createMarkup(images) {
 return images
@@ -77,26 +88,6 @@ return images
 
 
 
-// const markup = `
-/* <a href='${largeImageURL}' class="card-link js-card-link"></a> */
-// <div class="photo-card">
-// <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-// <div class="info">
-//     <p class="info-item">
-//     <b>Likes</b> ${likes}
-//     </p>
-//     <p class="info-item">
-//     <b>Views</b> ${views}
-//     </p>
-//     <p class="info-item">
-//     <b>Comments</b> ${comments}
-//     </p>
-//     <p class="info-item">
-//     <b>Downloads</b> ${downloads}
-//     </p>
-// </div>
-// </div>
-// `
 
 
 
