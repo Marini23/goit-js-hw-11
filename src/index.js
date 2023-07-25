@@ -3,33 +3,40 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from  "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+import PixabayService from "./pixabay-api";
 
 const form = document.querySelector(`.search-form`);
 const input = document.querySelector(`input`);
 const button = document.querySelector(`button`);
 const div = document.querySelector(`.gallery`);
+const btnLoadMore = document.querySelector(`.load-more`);
+
+const pixabayApi = new PixabayService();
 
 let lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
 });
 
 form.addEventListener(`submit`, onSearch);
+btnLoadMore.addEventListener(`click`, onLoadMore);
+
 
 async function onSearch(e) {
     e.preventDefault();
     // console.log(`submit`);
-    const form = e.currentTarget;
-    const searchQuery = form.elements.searchQuery.value;
+    // const searchQuery = e.currentTarget.elements.searchQuery.value;
     // console.log(searchQuery);
-    
-    const img = await getImages(searchQuery);
-    // console.log(img);
+    pixabayApi.searchQuery = e.currentTarget.elements.searchQuery.value;
+    const img = await pixabayApi.fetchArticles();
+    // const img = await getImages(searchQuery);
+    console.log(img);
     const images = img.hits;
+    console.log(images);
 try {
     if (images.length === 0) {
         Notify.info('Sorry, there are no images matching your search query. Please try again.');
     }
-    // console.log(images);
+    console.log(images);
     div.innerHTML = createMarkup(images);
     lightbox.refresh();
 }
@@ -40,22 +47,22 @@ try {
     
 };
 
-async function getImages(searchQuery) {
-    // console.log(`func`);
-    
-    const {data} = await axios.get(`https://pixabay.com/api/`,
-        {
-            params: {
-                key: `38416277-2f3b74029dfd524974848f805`,
-                q: searchQuery,
-                image_type: `photo`,
-                orientation: `horizontal`,
-                safesearch: `true`,
-            }
-        });
-        return data; 
-        
-    };
+// async function getImages(searchQuery,page) {
+//     // console.log(`func`);
+//     const url = `https://pixabay.com/api/`
+//     const options = {
+//         params: {
+//             key: `38416277-2f3b74029dfd524974848f805`,
+//             q: searchQuery,
+//             image_type: `photo`,
+//             orientation: `horizontal`,
+//             safesearch: `true`,
+//             per_page: 40,
+//         }
+//     };
+//     const {data} = await axios.get(url,options);
+//         return data;  
+//     };
 
 function createMarkup(images) {
 return images
@@ -92,7 +99,14 @@ return images
 }).join('');
 }
 
-
+async function onLoadMore() {
+pixabayApi.incrementPage();
+    const img = await pixabayApi.fetchArticles();
+    const images = img.hits;
+    console.log(images);
+    div.innerHTML += createMarkup(images);
+    lightbox.refresh();
+}
 
 
 
