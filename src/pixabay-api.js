@@ -3,6 +3,8 @@ export default class PixabayService {
     constructor() {
         this.searchQuery = ``;
         this.page = 1;
+        this.per_page = 99;
+        this.totalPages = 0;
     }
 async fetchArticles(searchQuery) {
 const url = `https://pixabay.com/api/`
@@ -13,14 +15,12 @@ const url = `https://pixabay.com/api/`
             image_type: `photo`,
             orientation: `horizontal`,
             safesearch: `true`,
-            per_page: 4,
+            per_page: this.per_page,
             page: this.page,
         }
     };
     const { data } = await axios.get(url, options);
-    // this.page += 1;
     return data;
-    // return (data => { this.page += 1; });
 
     }
     get query() {
@@ -33,6 +33,22 @@ const url = `https://pixabay.com/api/`
 incrementPage() {
         this.page += 1;
     }
+    resetPage() {
+        this.page = 1;
+    }
+    
+//     set total(totalHits) {
+//         return this.totalPages = totalHits;
+//     }
+
+
+//     hasTotalImages() {
+//         return this.page > Math.ceil(totalHits * this.per_page);
+// }
+
 
 };
+
+
+
 

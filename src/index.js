@@ -20,6 +20,7 @@ let lightbox = new SimpleLightbox('.gallery a', {
 form.addEventListener(`submit`, onSearch);
 btnLoadMore.addEventListener(`click`, onLoadMore);
 
+btnLoadMore.style.visibility = `hidden`;
 
 async function onSearch(e) {
     e.preventDefault();
@@ -27,7 +28,9 @@ async function onSearch(e) {
     // const searchQuery = e.currentTarget.elements.searchQuery.value;
     // console.log(searchQuery);
     pixabayApi.searchQuery = e.currentTarget.elements.searchQuery.value;
+    pixabayApi.resetPage();
     const img = await pixabayApi.fetchArticles();
+    
     // const img = await getImages(searchQuery);
     console.log(img);
     const images = img.hits;
@@ -39,9 +42,12 @@ try {
     console.log(images);
     div.innerHTML = createMarkup(images);
     lightbox.refresh();
+    btnLoadMore.style.visibility = `visible`;
 }
     catch { Report.failure('Sorry!Something went wrong', '', 'Okay',); }
-    finally { form.reset(); }
+finally {
+    form.reset();
+}
 
 
     
@@ -100,12 +106,29 @@ return images
 }
 
 async function onLoadMore() {
-pixabayApi.incrementPage();
+    pixabayApi.incrementPage();
     const img = await pixabayApi.fetchArticles();
-    const images = img.hits;
-    console.log(images);
+        const images = img.hits;
+    console.log(img);
+    // pixabayApi.setTotal(totalHits);
+    // const totalHits = img.totalHits;
+    // console.log(totalHits);
+    // const AllImages = pixabayApi.hasTotalImages();
+    // console.log(AllImages);
+    try {
+    //     if (!AllImages) {
+    //         Notify.info("We're sorry, but you've reached the end of search results.");
+    //         btnLoadMore.style.visibility = `hidden`;
+    // }
+    
     div.innerHTML += createMarkup(images);
-    lightbox.refresh();
+        lightbox.refresh();
+        
+    }
+    catch {
+        Report.failure('Sorry!Something went wrong', '', 'Okay',);
+    }
+    
 }
 
 
