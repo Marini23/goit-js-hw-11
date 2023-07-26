@@ -12,6 +12,15 @@ const button = document.querySelector(`button`);
 const div = document.querySelector(`.gallery`);
 const btnLoadMore = document.querySelector(`.load-more`);
 
+const notifyInit = {
+    width: '450px',
+    heigh: '100px',
+    position: 'center-center',
+    timeout: 2000,
+    fontSize: '20px',
+
+};
+
 const pixabayApi = new PixabayService();
 
 let lightbox = new SimpleLightbox('.gallery a', {
@@ -26,8 +35,6 @@ btnLoadMore.style.visibility = `hidden`;
 async function onSearch(e) {
     e.preventDefault();
     // console.log(`submit`);
-    // const searchQuery = e.currentTarget.elements.searchQuery.value;
-    // console.log(searchQuery);
     pixabayApi.searchQuery = e.currentTarget.elements.searchQuery.value;
     pixabayApi.resetPage();
     const img = await pixabayApi.fetchArticles();
@@ -38,8 +45,7 @@ try {
         form.reset();
         div.innerHTML = '';
         btnLoadMore.style.visibility = `hidden`;
-        Notify.info('Sorry, there are no images matching your search query. Please try again.'
-        );
+        Notify.info('Sorry, there are no images matching your search query. Please try again.', notifyInit);
         return;
     }
     // console.log(images);
@@ -63,7 +69,7 @@ const totalHits = img.totalHits;
         const totalImages = pixabayApi.hasMorePhotos();
         console.log(totalImages);
     if (totalHits / totalImages < 1) {
-    Notify.info("We're sorry, but you've reached the end of search results.");
+    Notify.info("We're sorry, but you've reached the end of search results.", notifyInit);
     btnLoadMore.style.visibility = `hidden`;
     return;
     }
