@@ -11,9 +11,9 @@ return images
         downloads,
     }) => {
         return  `
-<a href='${largeImageURL}' class="card-link js-card-link">
+<a href='${largeImageURL}' class="card-link ">
 <div class="photo-card">
-<img src="${webformatURL}" alt="${tags}" loading="lazy" />
+<img class="photo" src="${webformatURL}" alt="${tags}"  />
 <div class="info">
     <p class="info-item">
     <b>Likes</b> ${likes}

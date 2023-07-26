@@ -3,7 +3,7 @@ export default class PixabayService {
     constructor() {
         this.searchQuery = ``;
         this.page = 1;
-        this.per_page = 99;
+        this.per_page = 40;
         this.totalPages = 0;
     }
 async fetchArticles(searchQuery) {
@@ -37,23 +37,6 @@ incrementPage() {
         this.page = 1;
     }
     
-
-    // get totalPages() {
-    //     return this.totalPages;
-    // }
-
-    // settotalPage(totalHits) {
-    //     return this.totalPage = totalHits;
-    // }
-    // setTotal(totalHits) {
-    //     this.totalPages = totalHits;
-    // }
-
-//     hasTotalImages() {
-//         return this.page > Math.ceil(totalPage * this.per_page);
-// }
-    
-
     hasMorePhotos() {
         return this.page * this.per_page;
     }
