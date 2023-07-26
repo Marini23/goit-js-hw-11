@@ -37,15 +37,27 @@ incrementPage() {
         this.page = 1;
     }
     
-//     set total(totalHits) {
-//         return this.totalPages = totalHits;
-//     }
 
+    // get totalPages() {
+    //     return this.totalPages;
+    // }
+
+    // settotalPage(totalHits) {
+    //     return this.totalPage = totalHits;
+    // }
+    // setTotal(totalHits) {
+    //     this.totalPages = totalHits;
+    // }
 
 //     hasTotalImages() {
-//         return this.page > Math.ceil(totalHits * this.per_page);
+//         return this.page > Math.ceil(totalPage * this.per_page);
 // }
+    
 
+    hasMorePhotos() {
+        return this.page * this.per_page;
+    }
+    
 
 };
 
