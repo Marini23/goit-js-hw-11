@@ -35,7 +35,12 @@ async function onSearch(e) {
     // console.log(images);
 try {
     if (images.length === 0) {
-        Notify.info('Sorry, there are no images matching your search query. Please try again.');
+        form.reset();
+        div.innerHTML = '';
+        btnLoadMore.style.visibility = `hidden`;
+        Notify.info('Sorry, there are no images matching your search query. Please try again.'
+        );
+        return;
     }
     // console.log(images);
     div.innerHTML = createMarkup(images);
@@ -44,11 +49,8 @@ try {
 }
     catch { Report.failure('Sorry!Something went wrong', '', 'Okay',); }
 finally {
-    form.reset();
-}
-
-
-    
+    form.reset(); 
+}   
 };
 
 async function onLoadMore() {
