@@ -39,7 +39,6 @@ try {
     }
     // console.log(images);
     div.innerHTML = createMarkup(images);
-    
     lightbox.refresh();
     btnLoadMore.style.visibility = `visible`;
 }
@@ -53,6 +52,7 @@ finally {
 };
 
 async function onLoadMore() {
+btnLoadMore.style.visibility = `hidden`;
 pixabayApi.incrementPage();
 const img = await pixabayApi.fetchArticles();
 const images = img.hits;
@@ -68,7 +68,8 @@ const totalHits = img.totalHits;
 
     try {
     div.innerHTML += createMarkup(images);
-    lightbox.refresh();
+        lightbox.refresh();
+        btnLoadMore.style.visibility = `visible`;
     }
     catch {
         Report.failure('Sorry!Something went wrong', '', 'Okay',);
