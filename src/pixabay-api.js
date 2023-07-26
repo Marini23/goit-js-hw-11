@@ -3,7 +3,7 @@ export default class PixabayService {
     constructor() {
         this.searchQuery = ``;
         this.page = 1;
-        this.per_page = 99;
+        this.per_page = 40;
         this.totalPages = 0;
     }
 async fetchArticles(searchQuery) {
