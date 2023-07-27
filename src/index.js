@@ -23,6 +23,7 @@ const notifyInit = {
 
 const pixabayApi = new PixabayService();
 
+
 let lightbox = new SimpleLightbox('.gallery a', {
     captionDelay: 250,
 });
@@ -32,6 +33,7 @@ btnLoadMore.addEventListener(`click`, onLoadMore);
 
 btnLoadMore.style.visibility = `hidden`;
 
+
 async function onSearch(e) {
     e.preventDefault();
     // console.log(`submit`);
@@ -39,10 +41,11 @@ async function onSearch(e) {
     pixabayApi.resetPage();
     const img = await pixabayApi.fetchArticles();
     const images = img.hits;
-    console.log(images);
+    // console.log(images);
     const getImages = images.length;
     const totalHits = img.totalHits;
-        console.log(totalHits);
+    // console.log(totalHits);
+    
         // const totalImages = pixabayApi.hasMorePhotos();
         // console.log(totalImages);
     if (totalHits === getImages) {
@@ -70,17 +73,20 @@ finally {
 }   
 };
 
+const per_Page = pixabayApi.per_page;
+// console.log(pixabayApi.per_page);
+
+
 async function onLoadMore() {
 btnLoadMore.style.visibility = `hidden`;
 pixabayApi.incrementPage();
 const img = await pixabayApi.fetchArticles();
 const images = img.hits;
 const totalHits = img.totalHits;
-        console.log(totalHits);
-        // const totalImages = pixabayApi.hasMorePhotos();
-    const totalImages = images.length;
-        console.log(totalImages);
-    if (totalHits / totalImages >= totalHits ) {
+// console.log(totalHits);
+const allImages = pixabayApi.hasMorePhotos();
+
+    if ((totalHits - allImages) < per_Page) {
     Notify.info("We're sorry, but you've reached the end of search results.", notifyInit);
     btnLoadMore.style.visibility = `hidden`;
     return;

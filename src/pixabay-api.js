@@ -5,6 +5,8 @@ export default class PixabayService {
         this.page = 1;
         this.per_page = 40;
         this.totalPages = 0;
+        this.totalHits = 0;
+        
     }
 async fetchArticles(searchQuery) {
 const url = `https://pixabay.com/api/`
@@ -36,11 +38,10 @@ const url = `https://pixabay.com/api/`
     resetPage() {
         this.page = 1;
     }
-    
-    // hasMorePhotos() {
-    //     return this.page * this.per_page;
-    // }
-    
+
+    hasMorePhotos() {
+        return this.page * this.per_page;
+    }
 
 };
 
