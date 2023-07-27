@@ -84,9 +84,12 @@ const img = await pixabayApi.fetchArticles();
 const images = img.hits;
 const totalHits = img.totalHits;
 // console.log(totalHits);
-const allImages = pixabayApi.hasMorePhotos();
+    const allImages = pixabayApi.hasMorePhotos();
+    // console.log(allImages);
 
     if ((totalHits - allImages) < per_Page) {
+    div.innerHTML += createMarkup(images);
+    lightbox.refresh();
     Notify.info("We're sorry, but you've reached the end of search results.", notifyInit);
     btnLoadMore.style.visibility = `hidden`;
     return;
@@ -94,8 +97,8 @@ const allImages = pixabayApi.hasMorePhotos();
 
     try {
     div.innerHTML += createMarkup(images);
-        lightbox.refresh();
-        btnLoadMore.style.visibility = `visible`;
+    lightbox.refresh();
+    btnLoadMore.style.visibility = `visible`;
     }
     catch {
         Report.failure('Sorry!Something went wrong', '', 'Okay',);
