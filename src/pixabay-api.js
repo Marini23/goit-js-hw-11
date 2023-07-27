@@ -30,16 +30,16 @@ const url = `https://pixabay.com/api/`
     set query(newQuery) { 
         return this.searchQuery = newQuery;
     };
-incrementPage() {
+    incrementPage() {
         this.page += 1;
     }
     resetPage() {
         this.page = 1;
     }
     
-    hasMorePhotos() {
-        return this.page * this.per_page;
-    }
+    // hasMorePhotos() {
+    //     return this.page * this.per_page;
+    // }
     
 
 };

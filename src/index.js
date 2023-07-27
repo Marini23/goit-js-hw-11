@@ -39,6 +39,18 @@ async function onSearch(e) {
     pixabayApi.resetPage();
     const img = await pixabayApi.fetchArticles();
     const images = img.hits;
+    console.log(images);
+    const getImages = images.length;
+    const totalHits = img.totalHits;
+        console.log(totalHits);
+        // const totalImages = pixabayApi.hasMorePhotos();
+        // console.log(totalImages);
+    if (totalHits === getImages) {
+        btnLoadMore.style.visibility = `hidden`;
+        Notify.info("We're sorry, but you've reached the end of search results.", notifyInit);
+    }
+    else 
+    btnLoadMore.style.visibility = `visible`;
     // console.log(images);
 try {
     if (images.length === 0) {
@@ -51,7 +63,6 @@ try {
     // console.log(images);
     div.innerHTML = createMarkup(images);
     lightbox.refresh();
-    btnLoadMore.style.visibility = `visible`;
 }
     catch { Report.failure('Sorry!Something went wrong', '', 'Okay',); }
 finally {
@@ -66,9 +77,10 @@ const img = await pixabayApi.fetchArticles();
 const images = img.hits;
 const totalHits = img.totalHits;
         console.log(totalHits);
-        const totalImages = pixabayApi.hasMorePhotos();
+        // const totalImages = pixabayApi.hasMorePhotos();
+    const totalImages = images.length;
         console.log(totalImages);
-    if (totalHits / totalImages < 1) {
+    if (totalHits / totalImages >= totalHits ) {
     Notify.info("We're sorry, but you've reached the end of search results.", notifyInit);
     btnLoadMore.style.visibility = `hidden`;
     return;
